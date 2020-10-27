@@ -14,51 +14,11 @@
 # limitations under the License.
 #
 
-# Release name
-PRODUCT_RELEASE_NAME := PL2
-
-$(call inherit-product, build/target/product/embedded.mk)
-
 # Inherit from our custom product configuration
 $(call inherit-product, vendor/omni/config/common.mk)
 
-# A/B updater
-AB_OTA_UPDATER := true
-
-AB_OTA_PARTITIONS += \
-    boot \
-    system
-
-AB_OTA_POSTINSTALL_CONFIG += \
-    RUN_POSTINSTALL_system=true \
-    POSTINSTALL_PATH_system=system/bin/otapreopt_script \
-    FILESYSTEM_TYPE_system=ext4 \
-    POSTINSTALL_OPTIONAL_system=true
-
-PRODUCT_PACKAGES += \
-    otapreopt_script \
-    update_engine \
-    update_engine_sideload \
-    update_verifier
-
-# The following modules are included in debuggable builds only.
-PRODUCT_PACKAGES_DEBUG += \
-    bootctl \
-    update_engine_client
-
-# Boot control HAL
-PRODUCT_PACKAGES += \
-    bootctrl.sdm660
-
-PRODUCT_STATIC_BOOT_CONTROL_HAL := \
-    bootctrl.sdm660 \
-    libcutils \
-    libgptutils \
-    libz
-
-# Time Zone data for recovery
-PRODUCT_COPY_FILES += \
-    system/timezone/output_data/iana/tzdata:recovery/root/system/usr/share/zoneinfo/tzdata
+# Inherit from PL2 device
+$(call inherit-product, device/nokia/PL2/device.mk)
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_NAME := omni_PL2
@@ -66,3 +26,12 @@ PRODUCT_DEVICE := PL2
 PRODUCT_MANUFACTURER := FIH
 PRODUCT_BRAND := Nokia
 PRODUCT_MODEL := Nokia 6.1
+
+PRODUCT_GMS_CLIENTID_BASE := android-hmd
+
+PRODUCT_BUILD_PROP_OVERRIDES += \
+    PRODUCT_DEVICE=PL2_sprout \
+    PRODUCT_NAME=Plate2_00WW \
+    PRIVATE_BUILD_DESC="Plate2_00WW-user 10 QKQ1.190828.002 00WW_4_15C release-keys"
+
+BUILD_FINGERPRINT := Nokia/Plate2_00WW/PL2_sprout:10/QKQ1.190828.002/00WW_4_15C:user/release-keys
