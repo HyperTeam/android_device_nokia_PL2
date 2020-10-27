@@ -21,8 +21,6 @@ on init
     mount cgroup none /acct cpuacct
     mkdir /acct/uid
 
-    export LD_CONFIG_FILE /etc/ld.config.txt
-
     start hwservicemanager
     start patchlevel
 
